@@ -4,12 +4,26 @@ export default {
   data() {
     return {
        isShowRegForm: false,
+       formData: {
+         lastName: '',
+         firstName: '',
+         middleName: '',
+         phone: '',
+         region: ''
+       }
     };
   },
 
   methods: {
     showRegForm() {
       this.isShowRegForm = !this.isShowRegForm;
+    },
+    
+    handleSubmit(event) {
+      event.preventDefault();
+      // Здесь можно добавить логику отправки данных
+      console.log('Отправка данных:', this.formData);
+      this.showRegForm(); // Закрываем форму после отправки
     }
   }
 }
@@ -31,29 +45,64 @@ export default {
 
       <button class="close-button" @click="showRegForm">✕</button>
 
-      <form style="text-align: right; width: 75%; margin-left: 10%;">
-
+      <form @submit="handleSubmit" class="registration-form">
           <p>
             <label class="reg_label" for="last_name">Фамилия</label>
-            <input class="reg_input" type="text" id="last_name" name="last_name" required/>  
+            <input 
+              v-model="formData.lastName"
+              class="reg_input" 
+              type="text" 
+              id="last_name" 
+              name="last_name" 
+              required
+            />  
           </p>
           <p>
             <label class="reg_label" for="name">Имя</label>
-            <input class="reg_input" type="text" id="name" name="name" required/>  
+            <input 
+              v-model="formData.firstName"
+              class="reg_input" 
+              type="text" 
+              id="name" 
+              name="name" 
+              required
+            />  
           </p>
           <p>
             <label class="reg_label" for="middle_name">Отчество</label>
-            <input class="reg_input" type="text" id="middle_name" name="middle_name" placeholder="*если есть"/>  
+            <input 
+              v-model="formData.middleName"
+              class="reg_input" 
+              type="text" 
+              id="middle_name" 
+              name="middle_name" 
+              placeholder="*если есть"
+            />  
           </p>
 
           <p>
             <label class="reg_label" for="phone">Телефон </label>
-            <input class="reg_input" type="phone" pattern="\+\d-\d{3}-\d{3}-\d{4}" placeholder="+X-XXX-XXX-XXXX" id="phone" name="phone" required/>  
+            <input 
+              v-model="formData.phone"
+              class="reg_input" 
+              type="phone" 
+              pattern="\+\d-\d{3}-\d{3}-\d{4}" 
+              placeholder="+X-XXX-XXX-XXXX" 
+              id="phone" 
+              name="phone" 
+              required
+            />  
           </p>
 
           <p>
             <label class="reg_label" for="region">Регион</label>
-            <select class="reg_select" id="region" name="region" required>
+            <select 
+              v-model="formData.region"
+              class="reg_select" 
+              id="region" 
+              name="region" 
+              required
+            >
               <option disabled selected>Выберите регион</option>
               <option value="Moscow">Москва</option>
               <option value="Saint-Petersburg">Санкт-Петербург</option>
@@ -135,9 +184,28 @@ export default {
     font-size: 16px;
   }
 
+  .registration-form {
+    text-align: right;
+    width: 75%;
+    margin-left: 10%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
   .reg_input {
     margin-top: 10px;
     margin-left: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    width: 57%;
+  }
+
+  .reg_input:focus {
+    outline: none;
+    border-color: #4B91F7;
+    box-shadow: 0 0 0 2px rgba(75, 145, 247, 0.2);
   }
 
   .reg_select {
@@ -149,8 +217,8 @@ export default {
 
   .reg-form-button {
     position: absolute;
-    margin-top: 70%;
-    margin-left: -50%;
+    margin-top: 110%;
+    margin-left: 22%;
 
     align-items: center;
     padding: 6px 14px;
